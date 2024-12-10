@@ -2,6 +2,7 @@ package com.fatcorp.workshop_mongo.services;
 
 import com.fatcorp.workshop_mongo.domain.User;
 import com.fatcorp.workshop_mongo.repositories.UserRepository;
+import com.fatcorp.workshop_mongo.services.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,5 +18,10 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User findById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 }
