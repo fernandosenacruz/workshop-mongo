@@ -32,5 +32,15 @@ public class PostResources {
         List<Post> posts = postService.findByTitle(text);
         return ResponseEntity.ok().body(posts);
     }
+
+    @GetMapping(value = "/body")
+    public ResponseEntity<List<Post>> getPostByBody(
+            @RequestParam(value = "text", defaultValue = "")
+            String text
+    ) {
+        text = URL.decodeParam(text);
+        List<Post> posts = postService.findByBody(text);
+        return ResponseEntity.ok().body(posts);
+    }
 }
 

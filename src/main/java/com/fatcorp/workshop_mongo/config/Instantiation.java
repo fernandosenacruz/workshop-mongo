@@ -61,7 +61,7 @@ public class Instantiation implements CommandLineRunner {
                 sdf.parse("2024-08-01 18:10:00")
         );
         CommentDTO comment2 = new CommentDTO(
-                "comentário de teste",
+                "comentário de teste 02",
                 new AuthorDTO(user01),
                 sdf.parse("2024-08-04 10:10:00")
         );

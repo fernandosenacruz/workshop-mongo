@@ -27,4 +27,10 @@ public class PostService {
         if (posts.isEmpty()) throw new NotFoundException("Any post not found");
         return posts;
     }
+
+    public List<Post> findByBody(String body) {
+        List<Post> posts = postRepository.findByBody(body);
+        if (posts.isEmpty()) throw new NotFoundException("Any post not found");
+        return posts;
+    }
 }
