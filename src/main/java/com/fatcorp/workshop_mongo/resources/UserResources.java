@@ -1,5 +1,6 @@
 package com.fatcorp.workshop_mongo.resources;
 
+import com.fatcorp.workshop_mongo.domain.Post;
 import com.fatcorp.workshop_mongo.domain.User;
 import com.fatcorp.workshop_mongo.dto.UserDTO;
 import com.fatcorp.workshop_mongo.services.UserService;
@@ -11,6 +12,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.System.*;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -65,6 +68,12 @@ public class UserResources {
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> getPostsBysUserId(@PathVariable String id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
     }
 }
 
