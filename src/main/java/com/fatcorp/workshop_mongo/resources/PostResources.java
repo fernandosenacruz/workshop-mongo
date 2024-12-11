@@ -6,6 +6,7 @@ import com.fatcorp.workshop_mongo.utils.URL;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,8 +26,7 @@ public class PostResources {
 
     @GetMapping(value = "/title")
     public ResponseEntity<List<Post>> getPostByTitle(
-            @RequestParam(value = "text", defaultValue = "")
-            String text
+            @RequestParam(value = "text", defaultValue = "") String text
     ) {
         text = URL.decodeParam(text);
         List<Post> posts = postService.findByTitle(text);
@@ -35,11 +35,23 @@ public class PostResources {
 
     @GetMapping(value = "/body")
     public ResponseEntity<List<Post>> getPostByBody(
-            @RequestParam(value = "text", defaultValue = "")
-            String text
+            @RequestParam(value = "text", defaultValue = "") String text
     ) {
         text = URL.decodeParam(text);
         List<Post> posts = postService.findByBody(text);
+        return ResponseEntity.ok().body(posts);
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<Post>> getPostByAnyFild(
+            @RequestParam(value = "text", defaultValue = "") String text,
+            @RequestParam(value = "from", defaultValue = "") String from,
+            @RequestParam(value = "to", defaultValue = "") String to
+    ) {
+        text = URL.decodeParam(text);
+        Date min = URL.convertDate(from, new Date(0L));
+        Date max = URL.convertDate(to, new Date());
+        List<Post> posts = postService.fullSearch(text, min, max);
         return ResponseEntity.ok().body(posts);
     }
 }

@@ -5,6 +5,7 @@ import com.fatcorp.workshop_mongo.repositories.PostRepository;
 import com.fatcorp.workshop_mongo.services.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,6 +31,13 @@ public class PostService {
 
     public List<Post> findByBody(String body) {
         List<Post> posts = postRepository.findByBody(body);
+        if (posts.isEmpty()) throw new NotFoundException("Any post not found");
+        return posts;
+    }
+
+    public List<Post> fullSearch(String text, Date from, Date to) {
+        to = new Date(to.getTime() + (1000 * 60 * 60 * 24));
+        List<Post> posts = postRepository.fullSearch(text, from, to);
         if (posts.isEmpty()) throw new NotFoundException("Any post not found");
         return posts;
     }
